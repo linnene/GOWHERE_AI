@@ -1,0 +1,160 @@
+{
+    "title": "三天两晚上海休闲之旅",
+    "description": "这是一次从北京出发到上海的短途旅行，包括游览外滩夜景、上海迪士尼乐园和上海博物馆等著名景点。",
+    "total_days": 3,
+    "start_date": "2023-05-01",
+    "end_date": "2023-05-03",
+    "total_budget": 3500.0,
+    "daily_plans": [
+        {
+            "day_num": 1,
+            "task": "从北京出发前往上海，入住酒店，游览外滩",
+            "itinerary": [
+                {
+                    "Des": "乘坐高铁从北京南站前往上海虹桥站",
+                    "Dep_Date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 1
+                        },
+                        "time": {
+                            "hour": 9,
+                            "minute": 0
+                        }
+                    },
+                    "Des_Date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 1
+                        },
+                        "time": {
+                            "hour": 14,
+                            "minute": 30
+                        }
+                    },
+                    "Dep_Place": "北京南站",
+                    "Des_Place": "上海虹桥站",
+                    "Price": 553
+                }
+            ],
+            "stay": [
+                {
+                    "Des": "入住上海XX酒店",
+                    "stay_date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 1
+                        }
+                    },
+                    "leave_date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 3
+                        }
+                    },
+                    "stay_place": "上海XX酒店",
+                    "price": "680/晚"
+                }
+            ],
+            "attr": [
+                {
+                    "Des": "游览上海外滩夜景",
+                    "price": "免费",
+                    "attr_place": "上海外滩",
+                    "attr_date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 1
+                        },
+                        "time": {
+                            "hour": 19,
+                            "minute": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "day_num": 2,
+            "task": "游览上海迪士尼乐园",
+            "itinerary": null,
+            "stay": null,
+            "attr": [
+                {
+                    "Des": "全天游玩上海迪士尼乐园",
+                    "price": "580元/人",
+                    "attr_place": "上海迪士尼乐园",
+                    "attr_date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 2
+                        },
+                        "time": {
+                            "hour": 9,
+                            "minute": 0
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "day_num": 3,
+            "task": "参观上海博物馆，返回北京",
+            "itinerary": [
+                {
+                    "Des": "乘坐高铁从上海虹桥站返回北京南站",
+                    "Dep_Date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 3
+                        },
+                        "time": {
+                            "hour": 16,
+                            "minute": 0
+                        }
+                    },
+                    "Des_Date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 3
+                        },
+                        "time": {
+                            "hour": 21,
+                            "minute": 30
+                        }
+                    },
+                    "Dep_Place": "上海虹桥站",
+                    "Des_Place": "北京南站",
+                    "Price": 553
+                }
+            ],
+            "stay": null,
+            "attr": [
+                {
+                    "Des": "参观上海博物馆",
+                    "price": "免费",
+                    "attr_place": "上海博物馆",
+                    "attr_date": {
+                        "date": {
+                            "year": 2023,
+                            "month": 5,
+                            "day": 3
+                        },
+                        "time": {
+                            "hour": 10,
+                            "minute": 0
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

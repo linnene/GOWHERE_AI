@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field , model_validator
+from pydantic import BaseModel, Field, model_validator
 from datetime import datetime
 
 class DATE(BaseModel):
@@ -6,16 +6,16 @@ class DATE(BaseModel):
     month: int = Field(..., ge=1, le=12)
     day: int = Field(..., ge=1, le=31)
     
-    @model_validator
-    def validate_date(cls, values):
-        year = values.get("year")
-        month = values.get("month")
-        day = values.get("day")
+    @model_validator(mode='after')
+    def validate_date(cls, model):
+        year = model.year
+        month = model.month
+        day = model.day
         try:
             datetime(year, month, day)
         except ValueError:
             raise ValueError(f"Invalid date: {year}-{month}-{day}")
-        return values
+        return model
 
 class TIME(BaseModel):
 
@@ -31,3 +31,7 @@ class Itinerary_time(BaseModel):
 #住宿日期模版
 class Stay_time(BaseModel):
     date: DATE
+
+class Attr_time(BaseModel):
+    date: DATE
+    time: TIME
