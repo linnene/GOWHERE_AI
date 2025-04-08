@@ -1,13 +1,14 @@
 from sparkai.llm.llm import ChunkPrintHandler
 from sparkai.core.messages import ChatMessage
 
-from config import sp_pormpt,spark_client
-
-#TODO:完善函数
+from config.prompt import sp_pormpt
+from config.config import spark_client
+from schema.spark import SparkResponse
+from crud.spark import extract_json
 
 # Spark Lite 发送聊天
-def Spark_Send_Chat(role: str, content: str):    
-    # 生成聊天消息
+def Spark_Send_Chat(role: str, content: str) -> SparkResponse:    
+    
     messages = [
     ChatMessage(
         role= sp_pormpt.system_role,
@@ -17,15 +18,17 @@ def Spark_Send_Chat(role: str, content: str):
         role= role,
         content= content
     )]
-    # messages.append(ChatMessage(role="user", content=content)) [BULIKE]
 
     #发送消息并处理response
     try:
         handler = ChunkPrintHandler()
         a = spark_client.generate([messages], callbacks=[handler])
 
-        response = extract_json(a.generations[0][0].text)
+        response_dict = extract_json(a.generations[0][0].text)
+        # 使用Pydantic模型验证和序列化
+        print(SparkResponse(**response_dict))
+
+        return SparkResponse(**response_dict)
     except Exception as e:
-        return {"Error": "Json Fail"}
-    
-    return response['jud']
+        # 返回规范化的错误响应
+        return SparkResponse(jud="False")
