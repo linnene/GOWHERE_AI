@@ -1,26 +1,13 @@
-from ai.dp import send_message
+from crud.dp import extract_text
 import datetime
+from ai.dp import send_message
 
+#测试send_message函数，发送多个不同的旅行规划请求，并将结果保存到文件
 def test_send_message():
-    """
-    测试send_message函数，发送多个不同的旅行规划请求，并将结果保存到文件
-    """
     # 准备保存结果的文件
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     result_file = f"d:\\gowhere_pro\\GOWHERE_AI\\test\\test_results_{timestamp}.txt"
     results = []
-    
-    # 工具函数：从ChatCompletion对象提取文本内容
-    def extract_text(chat_completion):
-        try:
-            # 尝试获取回复内容 - 适用于OpenAI的ChatCompletion对象
-            return chat_completion.choices[0].message.content
-        except (AttributeError, IndexError, TypeError):
-            try:
-                # 如果上面的方法失败，尝试直接转字符串
-                return str(chat_completion)
-            except:
-                return "无法提取回复内容"
     
     # 测试用例1: 基本旅行规划
     print("\n=== 测试1: 基本旅行规划 ===")

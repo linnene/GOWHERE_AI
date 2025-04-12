@@ -1,6 +1,5 @@
-from config.prompt import ds_pormpt
+from config.prompt import ds_pormpt, tools_list
 from config.config import get_ds_client
-
 def send_message(message:str):
     ds_client = get_ds_client()
     response = ds_client.chat.completions.create(  
@@ -11,5 +10,6 @@ def send_message(message:str):
         ],
         stream=False,
         response_format={"type":"json_object"},
+        tools= tools_list,
         )
     return response

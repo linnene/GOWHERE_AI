@@ -1,4 +1,6 @@
 import os
+from schema.tools import Air,Hotel
+from typing import List
 
 #CRUD：从JSON模板文件中读取模板
 def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templates\\travel_plan_template.json"):
@@ -14,7 +16,7 @@ def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templat
         return "{}"
 
 
-# CRUD：从ChatCompletion对象提取文本内容
+#CRUD：从ChatCompletion对象提取文本内容
 def extract_text(chat_completion):
     try:
         # 尝试获取回复内容 - 适用于OpenAI的ChatCompletion对象
@@ -25,3 +27,56 @@ def extract_text(chat_completion):
             return str(chat_completion)
         except:
             return "无法提取回复内容"
+        
+#CRUD：获取机票信息 TODO:实现函数
+def get_Air(dep_air:str, des_air:str)-> Air:
+    """
+        搜索获取[dep-des]日期的机票详情：
+        Air{
+            dep_air: str = Field(..., description="出发地点")
+            des_air: str = Field(..., description="到达地点")
+            price: float = Field(..., description="机票价格")
+            dep_time: Itinerary_time = Field(..., description="出发时间")
+            des_time: Itinerary_time = Field(..., description="到达时间")
+            airline: str = Field(..., description="航空公司")
+            flight_num: str = Field(..., description="航班号")
+        }
+    """
+    pass
+
+#CRUD：获取指定地点附近酒店信息（10km？）TODO:实现函数
+def get_Hotel_by_loc(location:str, date)-> List[Hotel]:
+    """
+    搜索指定酒店名称的酒店信息include：
+        hotel_name: str, 酒店名称
+        address: str, 地址
+        star: str, 星级
+        room:room = {
+            room_type: str, 房型
+            price: str, 价格
+            free_room: bool, 指定时间内是否有房间   
+        }
+    """
+    pass
+
+#CRUD：获取指定酒店信息（10km？） TODO:实现函数
+def get_Hotel_by_name(hotel_name:str,date)-> Hotel:
+    """
+    搜索指定酒店名称的酒店信息include：
+        hotel_name: str, 酒店名称
+        address: str, 地址
+        star: str, 星级
+        room:room = {
+            room_type: str, 房型
+            price: str, 价格
+            free_room: bool, 指定时间内是否有房间   
+        }
+    """
+    pass
+
+#CRUD：获取指定地点天气信息 TODO:实现函数
+def  get_weather_by_loc(location:str,date)-> str:
+    """
+    获取指定地点的天气信息
+    """
+    pass
