@@ -1,5 +1,6 @@
 import os
 from schema.tools import Air,Hotel
+from schema.base import DATE
 from typing import List
 
 #CRUD：从JSON模板文件中读取模板
@@ -29,7 +30,7 @@ def extract_text(chat_completion):
             return "无法提取回复内容"
         
 #CRUD：获取机票信息 TODO:实现函数
-def get_Air(dep_air:str, des_air:str)-> Air:
+def get_Air(dep_air:str, des_air:str, date:DATE)-> Air:
     """
         搜索获取[dep-des]日期的机票详情：
         Air{
@@ -45,7 +46,7 @@ def get_Air(dep_air:str, des_air:str)-> Air:
     pass
 
 #CRUD：获取指定地点附近酒店信息（10km？）TODO:实现函数
-def get_Hotel_by_loc(location:str, date)-> List[Hotel]:
+def get_Hotel_by_loc(location:str, date:DATE)-> List[Hotel]:
     """
     搜索指定酒店名称的酒店信息include：
         hotel_name: str, 酒店名称
@@ -60,7 +61,7 @@ def get_Hotel_by_loc(location:str, date)-> List[Hotel]:
     pass
 
 #CRUD：获取指定酒店信息（10km？） TODO:实现函数
-def get_Hotel_by_name(hotel_name:str,date)-> Hotel:
+def get_Hotel_by_name(hotel_name:str,date:DATE)-> Hotel:
     """
     搜索指定酒店名称的酒店信息include：
         hotel_name: str, 酒店名称
@@ -79,4 +80,7 @@ def  get_weather_by_loc(location:str,date)-> str:
     """
     获取指定地点的天气信息
     """
+
+
+    
     pass
