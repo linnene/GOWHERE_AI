@@ -16,7 +16,6 @@ def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templat
         print(f"读取模板文件时出错: {e}")
         return "{}"
 
-
 #CRUD：从ChatCompletion对象提取文本内容
 def extract_text(chat_completion):
     try:
@@ -40,7 +39,6 @@ def get_Air(dep_air:str, des_air:str, date:DATE)-> Air:
             dep_time: Itinerary_time = Field(..., description="出发时间")
             des_time: Itinerary_time = Field(..., description="到达时间")
             airline: str = Field(..., description="航空公司")
-            flight_num: str = Field(..., description="航班号")
         }
     """
     pass
@@ -67,7 +65,7 @@ def get_Hotel_by_name(hotel_name:str,date:DATE)-> Hotel:
         hotel_name: str, 酒店名称
         address: str, 地址
         star: str, 星级
-        room:room = {
+        room:room = {\
             room_type: str, 房型
             price: str, 价格
             free_room: bool, 指定时间内是否有房间   
@@ -76,11 +74,11 @@ def get_Hotel_by_name(hotel_name:str,date:DATE)-> Hotel:
     pass
 
 #CRUD：获取指定地点天气信息 TODO:实现函数
+"""
+目前只有国内编码数据库，国外天气数据考虑使用google maps API 或者爬虫网站
+"""
 def  get_weather_by_loc(location:str,date)-> str:
     """
     获取指定地点的天气信息
     """
-
-
-    
     pass

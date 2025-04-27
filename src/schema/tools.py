@@ -9,7 +9,6 @@ class Air(BaseModel):
     dep_time: Itinerary_time = Field(..., description="出发时间")
     des_time: Itinerary_time = Field(..., description="到达时间")
     airline: str = Field(..., description="航空公司")
-    flight_num: str = Field(..., description="航班号")
 
 
 #SCHEMA: 房间信息
