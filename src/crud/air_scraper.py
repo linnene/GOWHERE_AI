@@ -74,10 +74,13 @@ def get_air_info(dep: str, des: str, date: DATE) -> list[Air]:
                 
                 air = Air(
                     price=Price.text,
-                    dep_airport=Dep_airport.text,
-                    arr_airport=Des_airport.text,
+                    dep_air=Dep_airport.text,
+                    des_air=Des_airport.text,
+                    
+                    #TODO：格式化日期
                     dep_time=Dep_time.text,
                     arr_time=Des_time.text,
+
                     airline=airline.text,
                     # flight_number=flight_number.text,
                 )

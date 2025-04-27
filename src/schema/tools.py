@@ -1,13 +1,15 @@
 from pydantic import BaseModel,Field
-from base import Itinerary_time
+from .base import Itinerary_time
 
 #SCHEMA：机票信息
 class Air(BaseModel):
     dep_air: str = Field(..., description="出发地点")
     des_air: str = Field(..., description="到达地点")
-    price: float = Field(..., description="机票价格")
+    price: str = Field(..., description="机票价格")
+
     dep_time: Itinerary_time = Field(..., description="出发时间")
     des_time: Itinerary_time = Field(..., description="到达时间")
+    # 可能需要更复杂的时间格式化
     airline: str = Field(..., description="航空公司")
 
 
