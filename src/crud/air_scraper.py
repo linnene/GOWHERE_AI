@@ -5,7 +5,7 @@ import re
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
 
-from schema.base import DATE
+from schema.base import DATE, TIME, Itinerary_time
 from schema.tools import Air
 from config.config import path, id, config
 
@@ -26,7 +26,7 @@ def get_air_info(dep: str, des: str, date: DATE) -> list[Air]:
     """
 
     options = webdriver.ChromeOptions()
-    # options.add_argument('--headless')  # 如需无界面，取消注释
+    options.add_argument('--headless')  # 如需无界面，取消注释
     driver = webdriver.Chrome(options=options)
 
     try:
@@ -72,14 +72,44 @@ def get_air_info(dep: str, des: str, date: DATE) -> list[Air]:
                 airline = element.find_element(By.XPATH, ".//*[contains(@class, 'airline-name')]")
                 # flight_number = element.find_element(By.XPATH, ".//*[contains(@class, 'plane-No')]")
                 
+                    # 修改处理到达时间的部分
+                des_time_text = Des_time.text.strip()
+
+                # 检查是否包含跨天信息
+                next_day = 0
+                if '+' in des_time_text:
+                    # 分离时间和跨天信息
+                    des_time_parts = des_time_text.split('+')
+                    des_time_text = des_time_parts[0].strip()
+                    # 提取跨天天数，如 "+1天" 中的 1
+                    next_day = int(des_time_parts[1].replace('天', '').strip())
+
+                des_hour, des_minute = map(int, des_time_text.split(':'))
+
+                # 创建到达日期（考虑跨天）
+                arrival_date = DATE(
+                    year=date.year,
+                    month=date.month,
+                    day=str(int(date.day) + next_day)  # 加上跨天的天数
+                )
+
                 air = Air(
                     price=Price.text,
                     dep_air=Dep_airport.text,
                     des_air=Des_airport.text,
                     
                     #TODO：格式化日期
-                    dep_time=Dep_time.text,
-                    arr_time=Des_time.text,
+                    dep_time=Itinerary_time(    # 创建正确的Itinerary_time对象
+                        date=date,
+                        time=TIME(
+                            hour=int(Dep_time.text.split(':')[0]),
+                            minute=int(Dep_time.text.split(':')[1])
+                        )
+                    ),
+                    des_time=Itinerary_time(
+                        date=arrival_date,  
+                        time=TIME(hour=des_hour, minute=des_minute)
+                    ),
 
                     airline=airline.text,
                     # flight_number=flight_number.text,

@@ -3,6 +3,8 @@ from schema.tools import Air,Hotel
 from schema.base import DATE
 from typing import List
 
+from .air_scraper import get_air_info
+
 #CRUD：从JSON模板文件中读取模板
 def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templates\\travel_plan_template.json"):
     try:
@@ -29,7 +31,7 @@ def extract_text(chat_completion):
             return "无法提取回复内容"
         
 #CRUD：获取机票信息 TODO:实现函数
-def get_Air(dep_air:str, des_air:str, date:DATE)-> Air:
+def get_Air(dep_air:str, des_air:str, date:DATE)-> List[Air]:
     """
         搜索获取[dep-des]日期的机票详情：
         Air{
@@ -41,7 +43,12 @@ def get_Air(dep_air:str, des_air:str, date:DATE)-> Air:
             airline: str = Field(..., description="航空公司")
         }
     """
-    pass
+
+    Air_list = []
+    Air_list = get_air_info(dep_air, des_air, date)
+
+    return Air_list
+
 
 #CRUD：获取指定地点附近酒店信息（10km？）TODO:实现函数
 def get_Hotel_by_loc(location:str, date:DATE)-> List[Hotel]:
