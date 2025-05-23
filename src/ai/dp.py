@@ -1,5 +1,8 @@
 from config.prompt import ds_pormpt, tools_list
 from config.config import get_ds_client
+from crud.dp import extract_text
+
+
 def send_message(message:str):
     ds_client = get_ds_client()
     response = ds_client.chat.completions.create(  
@@ -12,4 +15,6 @@ def send_message(message:str):
         response_format={"type":"json_object"},
         tools= tools_list,#type: ignore
         )#type: ignore
+    # message = response['choices'][0]['message']
+
     return response
