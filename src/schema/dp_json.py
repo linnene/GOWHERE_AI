@@ -5,6 +5,7 @@ from schema.base import Itinerary_time, Stay_time, Attr_time  # 修正导入路�
 #------------------交通通行信息模版------------------
 #出发Task
 class dp_Itinerary_Dep_Schema(BaseModel):
+    
     """
     Attributes:
     Des (str): 行程描述(包括路过的美景，交通方式，飞机航司、机型，火车车型车号等).

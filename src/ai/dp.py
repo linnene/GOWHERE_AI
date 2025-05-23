@@ -5,11 +5,11 @@ def send_message(message:str):
     response = ds_client.chat.completions.create(  
         model="deepseek-chat",
         messages=[
-            {"role": ds_pormpt.system_role, "content": ds_pormpt.system_content},
+            {"role": ds_pormpt.system_role, "content": ds_pormpt.system_content},#type: ignore
             {"role": "user", "content": message},
         ],
         stream=False,
         response_format={"type":"json_object"},
-        tools= tools_list,
-        )
+        tools= tools_list,#type: ignore
+        )#type: ignore
     return response
