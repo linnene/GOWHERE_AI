@@ -13,6 +13,7 @@ __all__ = ['get_air_info']
 
 
 def get_air_info(dep: str, des: str, date: DATE) -> list[Air]:
+    
     """
     通过Selenium自动化查询携程航班信息。
 
@@ -26,7 +27,7 @@ def get_air_info(dep: str, des: str, date: DATE) -> list[Air]:
     """
 
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')  # 如需无界面，取消注释
+    # options.add_argument('--headless')  # 如需无界面，取消注释
     driver = webdriver.Chrome(options=options)
 
     try:

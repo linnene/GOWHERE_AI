@@ -1,5 +1,5 @@
 # 修改格式，不需要前面的 ./ 符号
 src/config/
 
-# 或者使用更精确的忽略规则
-/src/config/*
+
+src/test_func/

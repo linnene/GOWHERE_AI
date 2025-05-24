@@ -2,8 +2,33 @@ import os
 from schema.tools import Air,Hotel
 from schema.base import DATE
 from typing import List
+import json
 
 from .air_scraper import get_air_info
+
+# 可以根据你注册的其他 tools 继续添加 import
+def handle_tool_call(tool_call):
+    
+    """
+    根据 tool_call 信息分发到对应的函数执行。
+    参数：
+        tool_call: 一个 ToolCall 对象（来自 chat_completion.choices[0].message.tool_calls）
+    返回：
+        函数运行结果对象（建议为 dict，可被 json 序列化）
+    """
+
+    tool_name = tool_call.function.name
+    try:
+        arguments = json.loads(tool_call.function.arguments)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"解析 tool 参数失败: {e}")
+
+    # 根据 tool 名称路由到具体的函数
+    if tool_name == "get_Air":
+        return get_Air(**arguments)
+    
+    else:
+        raise NotImplementedError(f"未注册的工具函数: {tool_name}")
 
 #CRUD：从JSON模板文件中读取模板
 def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templates\\travel_plan_template.json"):
@@ -22,16 +47,28 @@ def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templat
 def extract_text(chat_completion):
     try:
         # 尝试获取回复内容 - 适用于OpenAI的ChatCompletion对象
-        return chat_completion.choices[0].message.content
+        msg = chat_completion.choices[0].message
+
+        if msg.tool_calls:
+            return {
+                'type': 'tool_call',
+                'tool_calls': chat_completion.choices[0].message.tool_calls
+            }
+        
+        return {
+            "type": "reply",
+            "content": msg.content
+        }
+    
     except (AttributeError, IndexError, TypeError):
         try:
-            # 如果上面的方法失败，尝试直接转字符串
             return str(chat_completion)
         except:
             return "无法提取回复内容"
         
+        
 #CRUD：获取机票信息 TODO:实现函数
-def get_Air(dep_air:str, des_air:str, date:DATE)-> List[Air]:
+def get_Air(dep_air:str, des_air:str, date:str):
     """
         搜索获取[dep-des]日期的机票详情：
         Air{
@@ -43,11 +80,15 @@ def get_Air(dep_air:str, des_air:str, date:DATE)-> List[Air]:
             airline: str = Field(..., description="航空公司")
         }
     """
+    year, month, day = map(int, date.split('-'))
 
+    Date = DATE(year=str(year),month=str(month),day=str(day)) 
     Air_list = []
-    Air_list = get_air_info(dep_air, des_air, date)
+    Air_list = get_air_info(dep_air, des_air, Date)
 
-    return Air_list
+    result = [air.model_dump() for air in Air_list]
+
+    return result
 
 
 #CRUD：获取指定地点附近酒店信息（10km？）TODO:实现函数
