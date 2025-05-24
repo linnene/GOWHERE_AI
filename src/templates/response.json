@@ -1,1 +1,86 @@
-ChatCompletion(id='81da416e-bbae-4873-893e-5341fcd6c92b', choices=[Choice(finish_reason='tool_calls', index=0, logprobs=None, message=ChatCompletionMessage(content='', role='assistant', function_call=None, tool_calls=[ChatCompletionMessageToolCall(id='call_0_60f552c6-f5a2-4802-8579-89ba7b64336f', function=Function(arguments='{"dep_air": "成都", "des_air": "三亚"}', name='get_Air'), type='function', index=0), ChatCompletionMessageToolCall(id='call_1_c6c9f92d-ed19-49ca-b1e5-4fc59d0e0d78', function=Function(arguments='{"location": "三亚"}', name='get_Hotel'), type='function', index=1)]))], created=1748012555, model='deepseek-chat', object='chat.completion', service_tier=None, system_fingerprint='fp_8802369eaa_prod0425fp8', usage=CompletionUsage(completion_tokens=49, prompt_tokens=2118, total_tokens=2167, prompt_tokens_details={'cached_tokens': 2048}, prompt_cache_hit_tokens=2048, prompt_cache_miss_tokens=70))
+[
+  {
+    "dep_air": "天府国际机场T2",
+    "des_air": "凤凰国际机场T1",
+    "price": "¥550",
+    "dep_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 18, "minute": 50 }
+    },
+    "des_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 21, "minute": 45 }
+    },
+    "airline": "南方航空"
+  },
+  {
+    "dep_air": "双流国际机场T2",
+    "des_air": "凤凰国际机场T1",
+    "price": "¥550",
+    "dep_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 19, "minute": 15 }
+    },
+    "des_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 22, "minute": 0 }
+    },
+    "airline": "成都航空"
+  },
+  {
+    "dep_air": "天府国际机场T2",
+    "des_air": "凤凰国际机场T1",
+    "price": "¥560",
+    "dep_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 17, "minute": 40 }
+    },
+    "des_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 20, "minute": 5 }
+    },
+    "airline": "海航旗下祥鹏航空"
+  },
+  {
+    "dep_air": "天府国际机场T2",
+    "des_air": "凤凰国际机场T1",
+    "price": "¥600",
+    "dep_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 8, "minute": 30 }
+    },
+    "des_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 11, "minute": 0 }
+    },
+    "airline": "海南航空"
+  },
+  {
+    "dep_air": "天府国际机场T2",
+    "des_air": "凤凰国际机场T1",
+    "price": "¥600",
+    "dep_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 22, "minute": 25 }
+    },
+    "des_time": {
+      "date": { "year": "2025", "month": "5", "day": "26" },
+      "time": { "hour": 0, "minute": 50 }
+    },
+    "airline": "四川航空"
+  },
+  {
+    "dep_air": "天府国际机场T2",
+    "des_air": "凤凰国际机场T1",
+    "price": "¥620",
+    "dep_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 10, "minute": 20 }
+    },
+    "des_time": {
+      "date": { "year": "2025", "month": "5", "day": "25" },
+      "time": { "hour": 12, "minute": 45 }
+    },
+    "airline": "海航旗下祥鹏航空"
+  }
+]

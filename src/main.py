@@ -5,7 +5,7 @@ import json
 
 
 def func_call(message):
-    chat_completion = send_message(message)  # 你之前封装的 send_message，返回 ChatCompletion 对象
+    chat_completion = send_message(message)
     print(chat_completion)
     response_result = extract_text(chat_completion)
     print(response_result)
@@ -15,7 +15,7 @@ def func_call(message):
 
     elif response_result["type"] == "tool_call":
         for call in response_result["tool_calls"]:
-            tool_result = handle_tool_call(call)  # 你之前写的 tool 分发函数
+            tool_result = handle_tool_call(call)   
             print(tool_result)
             tool_message = {
                 "role": "tool",

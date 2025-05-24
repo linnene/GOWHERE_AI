@@ -26,6 +26,7 @@ def handle_tool_call(tool_call):
     # 根据 tool 名称路由到具体的函数
     if tool_name == "get_Air":
         return get_Air(**arguments)
+    #TODO: 之后添加路由在此处
     
     else:
         raise NotImplementedError(f"未注册的工具函数: {tool_name}")
