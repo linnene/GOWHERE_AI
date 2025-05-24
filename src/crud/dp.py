@@ -1,5 +1,5 @@
 import os
-from schema.tools import Air,Hotel
+from schema.tools import Hotel
 from schema.base import DATE
 from typing import List
 import json
@@ -131,3 +131,10 @@ def  get_weather_by_loc(location:str,date)-> str:
     获取指定地点的天气信息
     """
     pass
+
+
+def get_chat_by_id(UserId: str):
+    """
+    获取指定用户的对话
+    """
+    
