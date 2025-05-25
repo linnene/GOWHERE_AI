@@ -10,9 +10,10 @@ import json
 CHAT = [{"role": ds_pormpt.system_role, "content": ds_pormpt.system_content}]
 
 
-
-def chat_loop(message,UserId:str):
+def chat_loop_block(message,UserId:str):
     user_chat = CHAT
+    #TODO: to make this func come to be real
+    # user_chat = get_chat_by_id(UserId)
 
     user_chat.append(
         {
@@ -24,15 +25,13 @@ def chat_loop(message,UserId:str):
     chat_completion = send_message(user_chat)
     response_result = extract_text(chat_completion)
 
-
     if response_result["type"] == "reply":
         user_chat.append({
                 "role" : "assistant",
                 "content" : response_result["content"]}
         )
 
-        print("Assistant:", response_result["content"])
-
+        print("Assistant:", response_result["content"])   
     elif response_result["type"] == "tool_call":
         for call in response_result["tool_calls"]:
             user_chat.append({
@@ -53,7 +52,6 @@ def chat_loop(message,UserId:str):
                     "content": f"{json.dumps(tool_result, ensure_ascii=False)}"
                 }
             )
-
     elif response_result["type"] == "error":
         print("发生错误：", response_result["error"])
                                                     
