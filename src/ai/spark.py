@@ -22,7 +22,7 @@ def Spark_Send_Chat(role: str, content: str) -> SparkResponse:
     #发送消息并处理response
     try:
         handler = ChunkPrintHandler()
-        a = spark_client.generate([messages], callbacks=[handler])
+        a = spark_client.generate([messages], callbacks=[handler])#type: ignore
 
         response_dict = extract_json(a.generations[0][0].text)
         # 使用Pydantic模型验证和序列化

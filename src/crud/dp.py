@@ -1,9 +1,41 @@
-import os
-from schema.tools import Air,Hotel
-from schema.base import DATE
-from typing import List
+#type: ignore
 
+import os
+from typing import List
+import json
+
+# from crud.dp import get_chat_by_id
+from schema.tools import Hotel
+from schema.base import DATE
+from crud.dp import extract_text,handle_tool_call
+from ai.dp import send_message
+from config.prompt import ds_pormpt
 from .air_scraper import get_air_info
+
+# 可以根据你注册的其他 tools 继续添加 import
+def handle_tool_call(tool_call):
+    
+    """
+    根据 tool_call 信息分发到对应的函数执行。
+    参数：
+        tool_call: 一个 ToolCall 对象（来自 chat_completion.choices[0].message.tool_calls）
+    返回：
+        函数运行结果对象（建议为 dict，可被 json 序列化）
+    """
+
+    tool_name = tool_call.function.name
+    try:
+        arguments = json.loads(tool_call.function.arguments)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"解析 tool 参数失败: {e}")
+
+    # 根据 tool 名称路由到具体的函数
+    if tool_name == "get_Air":
+        return get_Air(**arguments)
+    #TODO: 之后添加路由在此处
+    
+    else:
+        raise NotImplementedError(f"未注册的工具函数: {tool_name}")
 
 #CRUD：从JSON模板文件中读取模板
 def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templates\\travel_plan_template.json"):
@@ -22,16 +54,28 @@ def load_template_from_json(file_path="d:\\gowhere_pro\\GOWHERE_AI\\src\\templat
 def extract_text(chat_completion):
     try:
         # 尝试获取回复内容 - 适用于OpenAI的ChatCompletion对象
-        return chat_completion.choices[0].message.content
+        msg = chat_completion.choices[0].message
+
+        if msg.tool_calls:
+            return {
+                'type': 'tool_call',
+                'tool_calls': chat_completion.choices[0].message.tool_calls
+            }
+        
+        return {
+            "type": "reply",
+            "content": msg.content
+        }
+    
     except (AttributeError, IndexError, TypeError):
         try:
-            # 如果上面的方法失败，尝试直接转字符串
             return str(chat_completion)
         except:
             return "无法提取回复内容"
         
+        
 #CRUD：获取机票信息 TODO:实现函数
-def get_Air(dep_air:str, des_air:str, date:DATE)-> List[Air]:
+def get_Air(dep_air:str, des_air:str, date:str):
     """
         搜索获取[dep-des]日期的机票详情：
         Air{
@@ -43,11 +87,15 @@ def get_Air(dep_air:str, des_air:str, date:DATE)-> List[Air]:
             airline: str = Field(..., description="航空公司")
         }
     """
+    year, month, day = map(int, date.split('-'))
 
+    Date = DATE(year=str(year),month=str(month),day=str(day)) 
     Air_list = []
-    Air_list = get_air_info(dep_air, des_air, date)
+    Air_list = get_air_info(dep_air, des_air, Date)
 
-    return Air_list
+    result = [air.model_dump() for air in Air_list]
+
+    return result
 
 
 #CRUD：获取指定地点附近酒店信息（10km？）TODO:实现函数
@@ -89,3 +137,63 @@ def  get_weather_by_loc(location:str,date)-> str:
     获取指定地点的天气信息
     """
     pass
+
+
+
+def get_chat_by_id(UserId: str):
+    """
+    获取指定用户的对话
+    """
+
+
+#暂时的
+CHAT = [{"role": ds_pormpt.system_role, "content": ds_pormpt.system_content}]
+
+#type: ignore
+def chat_loop_block(message,UserId:str):
+    user_chat = CHAT
+    #TODO: to make this func come to be real
+    # user_chat = get_chat_by_id(UserId)
+
+    user_chat.append(
+        {
+            "role" : "user",
+            "content": message
+        }
+    )
+
+    chat_completion = send_message(user_chat)
+    response_result = extract_text(chat_completion)
+
+    if response_result["type"] == "reply":
+        user_chat.append({
+                "role" : "assistant",
+                "content" : response_result["content"]}
+        )
+
+        print("Assistant:", response_result["content"])   
+    elif response_result["type"] == "tool_call":
+        for call in response_result["tool_calls"]:
+            user_chat.append({
+                "role": "assistant",
+                "tool_calls": [
+                    {
+                    "id":call.id,
+                    "type": "function",
+                    "function": {"name": call.function.name, "arguments": call.function.arguments} 
+                    }
+                ]
+            })
+
+            tool_result = handle_tool_call(call)
+
+            user_chat.append(
+                {
+                    "role": "tool",
+                    "tool_call_id": call.id,
+                    "content": f"{json.dumps(tool_result, ensure_ascii=False)}"
+                }
+            )
+            
+    elif response_result["type"] == "error":
+        print("发生错误：", response_result["error"])
